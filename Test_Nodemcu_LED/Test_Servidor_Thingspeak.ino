@@ -28,12 +28,18 @@
 */
 
 #include <ESP8266WiFi.h>
+#include <OneWire.h>                
+#include <DallasTemperature.h>
 
 // Wi-Fi Settings
 const char* ssid = "Red-Casa"; // your wireless network name (SSID)
 const char* password = "lceder2872"; // your Wi-Fi network password
-
 WiFiClient client;
+
+//Configuramos ds18b20
+OneWire ourWire1(2); // Pin 0 de entrada
+DallasTemperature sensors1(&ourWire1); // se declara com ovariable u objeto
+float T1;
 
 // ThingSpeak Settings
 const int channelID = 544264;
@@ -43,25 +49,33 @@ const int postingInterval = 20 * 1000; // post data every 20 seconds
 
 void setup() {
   Serial.begin(115200);
+  sensors1.begin();   //Se inicia el sensor 1
+  
   WiFi.begin(ssid, password);
-
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
   }
 }
 
 void loop() {
+
+  
+  
   if (client.connect(server, 80)) {
     
+    //Iniciamos Sensor 1
+    sensors1.requestTemperatures();  // Iniciamos sensor
+    T1 = sensors1.getTempCByIndex(0);
+    
     // Measure Analog Input (A0)
-    int valueA0 = analogRead(A0);
+    //int valueA0 = analogRead(A0);
 
     // Construct API request body
     String body = "field1=";
-           body += String(valueA0);
+           body += String(T1);
     
-    Serial.print("A0: ");
-    Serial.println(valueA0); 
+    Serial.print("T1: ");
+    Serial.println(T1); 
 
     client.println("POST /update HTTP/1.1");
     client.println("Host: api.thingspeak.com");
