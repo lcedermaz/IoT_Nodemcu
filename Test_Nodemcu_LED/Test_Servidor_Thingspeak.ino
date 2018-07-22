@@ -37,7 +37,7 @@ const char* password = "lceder2872"; // your Wi-Fi network password
 WiFiClient client;
 
 //Configuramos ds18b20
-OneWire ourWire1(2); // Pin 0 de entrada
+OneWire ourWire1(2); // Pin D4 de entrada!! Averiguar los pines para el IDE
 DallasTemperature sensors1(&ourWire1); // se declara com ovariable u objeto
 float T1;
 
