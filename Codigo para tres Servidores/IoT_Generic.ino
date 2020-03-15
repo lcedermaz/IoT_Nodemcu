@@ -12,6 +12,7 @@
  *  Last edit: 2020 02 01
  *  
  *  https://www.instructables.com/id/NodeMCU-Wireless-Weather-Station/
+ *  https://hackaday.io/project/166172-iot-personal-nodemcu-esp12-wifi-weather-station
  */
  
 #include <ESP8266WiFi.h> //https://github.com/esp8266/Arduino/archive/master.zip
