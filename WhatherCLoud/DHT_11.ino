@@ -61,7 +61,7 @@ void setup(){
     Serial.begin(9600);
     //wi-fi
     delay(100);
-
+    
     //---Estado de la conexión
     Serial.println("Connecting to ");
     Serial.println(ssid);
@@ -202,19 +202,29 @@ void loop(){
     //send data
     if (!client.connect(host, httpPort)) {
         Serial.println("Connection with server failed.");
-        return;
-    }
-    client.print("GET /set/wid/WID/key/KEY/temp/");
-    client.print(t);
+        Serial.println(client.remoteIP());
+        //return;
+    } else {
+    Serial.println("connection failed");
+  }
+    //client.print("GET /set/wid/WID/key/KEY/temp/");
+    //client.print(t);
+    client.print("GET /set/wid/");
+    client.print(streamId);
+    client.print("/key/");
+    client.print(privateKey);
+    //client.print("/temp/");
+    //client.print(t*10);
     client.print("/tempin/");
-    client.print(hic);
+    client.print(t); // hic
     /*client.print("/chill/");
     client.print(wchill);
     client.print("/dew/");
     client.print(dew);
-    client.print("/heat/");
-    client.print(heat);
     */
+    client.print("/heat/");
+    client.print(hic); // indice de calor ?
+    
     client.print("/hum/");
     client.print(h);
     /*client.print("/wspd/");
@@ -253,4 +263,3 @@ void loop(){
     delay(5000);
     //clicked = 0;
 }
-
