@@ -10,8 +10,8 @@
 #include <ESP8266WiFi.h>
 
 #ifndef STASSID
-#define STASSID "Fibertel WiFi493 2.4Ghz"
-#define STAPSK  "0068357885"
+#define STASSID "XXXXXXXXXXXXXXX"
+#define STAPSK  "XXXXXXXXXXXXXXX"
 #endif
 
 const char* ssid = STASSID;
