@@ -4,8 +4,17 @@
 
 
 // Wi-Fi Settings
-const char* ssid = "Fibertel WiFi493 2.4GHz" ; // your wireless network name (SSID) 
-const char* password = "0068357885" ; // your Wi-Fi network password
+
+//const char* ssid = "Fibertel WiFi493 2.4GHz" ; // your wireless network name (SSID) 
+//const char* password = "0068357885" ; // your Wi-Fi network password
+
+#ifndef STASSID
+#define STASSID "Fibertel WiFi493 2.4Ghz"
+#define STAPSK  "0068357885"
+#endif
+
+const char* ssid     = STASSID;
+const char* password = STAPSK;
 WiFiClient client;
 
 // WhaterCloud Settings
@@ -70,9 +79,12 @@ void setup(){
     delay(100);
     
     //---Estado de la conexión
+    Serial.println();
+    Serial.println();
     Serial.println("Connecting to ");
     Serial.println(ssid);
-    
+
+    WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
@@ -229,17 +241,17 @@ void loop(){
     client.print("/key/");
     client.print(privateKey);
     client.print("/temp/");
-    client.print(t*10);
+    client.print(Temp1*10); //se muestra la temperatura del sensor ds18b20, se cambia por Temp1
     client.print("/tempin/");
-    client.print(t); // hic
+    client.print(Temp1); // hic
     /*client.print("/chill/");
     client.print(wchill);
     client.print("/dew/");
     client.print(dew);
     */
     client.print("/heat/");
-    client.print(Temp1*10); // se muestra la temperatura del sensor ds18b20, "hic", se cambia por Temp1
-    client.print("/hum/");
+    client.print(t*10);     // se muestra la temperatura del sensor dht11, "hic", se cambia por Temp1
+    client.print("/hum/");  // se muestra la humedad del sensor dht11, "h"
     client.print(h);
     /*client.print("/wspd/");
     client.print(wspd);
@@ -257,11 +269,11 @@ void loop(){
     Serial.print(F("HR: "));
     Serial.print(h);
     Serial.print(F("%  Temp: "));
-    Serial.print(t);
+    Serial.print(Temp1); //se muestra la temperatura del sensor ds18b20 
     Serial.print(F("°C "));
     Serial.print(f);
     Serial.print(F("°F  Heat index: "));
-    Serial.print(Temp1); // "hic", se cambia por Temp1
+    Serial.print(t); // "hic", se cambia por t, sensor DHT11
     Serial.print(F("°C "));
     Serial.print(hif);
     Serial.println(F("°F"));         
